@@ -1,7 +1,7 @@
 # Number Recognition Neural Network
 
 <img src="./img/acc_and_loss.png" alt="Accuracy and loss" title="Model accuracy and loss" width="280" height="466" align="right" /> 
-<p>Basic handwritten number recognition using Python3 and the following modules/resources:
+<p>Basic handwritten number recognition using Python3 and the following modules:
 <ul>
 <li>tensorflow
 
