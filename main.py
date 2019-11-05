@@ -60,4 +60,4 @@ tb = program.TensorBoard() #program module is used to launch tensorboard (see ht
 tb.configure(argv=[None, '--logdir', "logs"])
 url = tb.launch()
 
-print(url) #follow this link to see the tensorboard
+input("Press enter to end the program and close the tensorboard session at: " + url) #follow this link to see the tensorboard
