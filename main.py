@@ -12,17 +12,26 @@ def getpack(package):
         return (importlib.import_module(package))
         # import package
 
-
+time=getpack("time")
 tf=getpack("tensorflow")
+from tensorflow.keras.callbacks import TensorBoard
+from tensorboard import program
+
+
+Name=f"Number_eval_{int(time.time())}" #name for logging
+tensorboard=TensorBoard(log_dir=f"logs/{Name}") #setup tensorboard for visual inspection
+
+
+subprocess.call('rm -rf ./logs/*', shell=True) #remove old logs
+
 
 #This code works with the mnist dataset included in tf (it can be found here: http://yann.lecun.com/exdb/mnist/)
-
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-#"pixels" in x_train and x_test have a value between 0-255 we want values between 0-1 for our network
 
+#"pixels" in x_train and x_test have a value between 0-255 we want values between 0-1 for our network
 x_train, x_test = x_train / 255.0, x_test / 255.0
 
 
@@ -41,6 +50,14 @@ model.compile(optimizer='adam', #adam combines RMSprop and Momentum for gradient
               metrics=['accuracy']) #the metric we want to optimize
 
 
-model.fit(x_train, y_train, epochs=7)#input,output,epochs
+model.fit(x_train, y_train, epochs=7, callbacks=[tensorboard])#input,output,epochs; if we hadn't specified test and training sets we would use validation_split parameter here
 
 model.evaluate(x_test,  y_test, verbose=2)#verbose specifies output
+
+
+
+tb = program.TensorBoard() #program module is used to launch tensorboard (see https://github.com/tensorflow/tensorboard/blob/master/tensorboard/program.py)
+tb.configure(argv=[None, '--logdir', "logs"])
+url = tb.launch()
+
+print(url) #follow this link to see the tensorboard
